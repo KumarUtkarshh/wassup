@@ -1,3 +1,4 @@
+import { clerkMiddleware } from "@clerk/express";
 import express from "express";
 import authRoutes from "./routes/authRoutes";
 import chatRoutes from "./routes/chatRoutes";
@@ -11,6 +12,11 @@ requests with JSON payloads. This middleware function parses incoming request bo
 parsed JSON data available on the `req.body` property of the request object. This allows the
 application to easily work with JSON data sent in the request body. */
 app.use(express.json());
+
+/* The line `app.use(clerkMiddleware());` is setting up middleware in the Express application to
+integrate Clerk authentication functionality. Clerk is a service that provides user authentication
+and identity management features. */
+app.use(clerkMiddleware());
 
 app.get("/health", (req, res) => {
   res.json({
