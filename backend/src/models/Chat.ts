@@ -1,4 +1,4 @@
-import mongoose, { Schema, type Date, type Document } from "mongoose";
+import mongoose, { Schema, type Document } from "mongoose";
 
 export interface IChat extends Document {
   participants: mongoose.Types.ObjectId[];
