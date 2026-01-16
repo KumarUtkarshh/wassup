@@ -1,4 +1,27 @@
 import express from "express";
+import authRoutes from "./routes/authRoutes";
+import chatRoutes from "./routes/chatRoutes";
+import messageRoutes from "./routes/messageRoutes";
+import userRoutes from "./routes/userRoutes";
+
 const app = express();
+
+/* `app.use(express.json());` is setting up middleware in the Express application to parse incoming
+requests with JSON payloads. This middleware function parses incoming request bodies and makes the
+parsed JSON data available on the `req.body` property of the request object. This allows the
+application to easily work with JSON data sent in the request body. */
+app.use(express.json());
+
+app.get("/health", (req, res) => {
+  res.json({
+    status: "ok",
+    message: "Server is running",
+  });
+});
+
+app.use("/api/auth", authRoutes);
+app.use("/api/chats", chatRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/users", userRoutes);
 
 export default app;
