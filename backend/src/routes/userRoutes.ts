@@ -1,7 +1,9 @@
 import { Router } from "express";
+import { getUsers } from "../controllers/userController";
+import { protectRoute } from "../middleware/auth";
 
 const router = Router();
 
-router.get("/test", (req, res) => {});
+router.get("/", protectRoute, getUsers);
 
 export default router;
