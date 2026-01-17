@@ -1,9 +1,13 @@
-import { getAuth } from "@clerk/express";
-import type { Request, Response } from "express";
+import { clerkClient, getAuth } from "@clerk/express";
+import type { NextFunction, Request, Response } from "express";
 import type { AuthRequest } from "../middleware/auth";
 import { User } from "../models/User";
 
-export async function getMe(req: AuthRequest, res: Response) {
+export async function getMe(
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = req.userId;
 
@@ -16,12 +20,43 @@ export async function getMe(req: AuthRequest, res: Response) {
 
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500);
+    next(error);
   }
 }
 
-export async function authCallback(req: Request, res: Response) {
+export async function authCallback(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const { userId: clerkId } = getAuth(req);
-  } catch (error) {}
+
+    if (!clerkId) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+
+    let user = await User.findOne({ clerkId });
+
+    if (!user) {
+      //get user info and save to db
+      const clerkUser = await clerkClient.users.getUser(clerkId);
+
+      user = await User.create({
+        clerkId,
+        name: clerkUser.firstName
+          ? `${clerkUser.firstName} ${clerkUser.lastName || ""}`.trim()
+          : clerkUser.emailAddresses[0]?.emailAddress.split("@")[0],
+        email: clerkUser.emailAddresses[0]?.emailAddress,
+        avatar: clerkUser.imageUrl,
+      });
+    }
+
+    res.json(user);
+  } catch (error) {
+    res.status(500);
+    next(error);
+  }
 }

@@ -1,5 +1,6 @@
 import { clerkMiddleware } from "@clerk/express";
 import express from "express";
+import { errorHandler } from "./controllers/errorHandler";
 import authRoutes from "./routes/authRoutes";
 import chatRoutes from "./routes/chatRoutes";
 import messageRoutes from "./routes/messageRoutes";
@@ -29,5 +30,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/chats", chatRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
+
+/* The line `app.use(errorHandler);` is setting up error handling middleware in the Express
+application. This middleware function will be called for any errors that occur during the processing
+of incoming requests. It is responsible for catching errors, handling them appropriately, and
+sending a meaningful response back to the client. */
+app.use(errorHandler);
 
 export default app;
