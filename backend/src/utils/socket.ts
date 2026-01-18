@@ -1,13 +1,9 @@
 import { verifyToken } from "@clerk/express";
 import { Server as HttpServer } from "http";
-import { Socket, Server as SocketServer } from "socket.io";
+import { Server as SocketServer } from "socket.io";
 import { Chat } from "../models/Chat";
 import { Message } from "../models/Message";
 import { User } from "../models/User";
-
-interface SocketWithUserID extends Socket {
-  userId: string;
-}
 
 export const onlineUsers: Map<string, string> = new Map();
 
@@ -15,8 +11,8 @@ export const initializeSocket = (httpServer: HttpServer) => {
   const allowedOrigins = [
     "http://localhost:3000",
     "http://localhost:8081",
-    process.env.FRONTEND_URL!,
-  ];
+    process.env.FRONTEND_URL,
+  ].filter(Boolean) as string[];
 
   const io = new SocketServer(httpServer, {
     cors: {
@@ -41,10 +37,10 @@ export const initializeSocket = (httpServer: HttpServer) => {
       const user = await User.findOne({ clerkId });
       if (!user) return next(new Error("User not found"));
 
-      (socket as SocketWithUserID).userId = user._id.toString();
+      socket.data.userId = user._id.toString();
       next();
-    } catch (error: any) {
-      next(new Error(error));
+    } catch (error: unknown) {
+      next(error instanceof Error ? error : new Error(String(error)));
     }
   });
 
@@ -52,7 +48,7 @@ export const initializeSocket = (httpServer: HttpServer) => {
  new socket connection is established with the Socket.IO server. When a client successfully connects
  to the server, this event is triggered. */
   io.on("connection", (socket) => {
-    const userId = (socket as SocketWithUserID).userId;
+    const userId = socket.data.userId;
 
     //send list of currently online users to newly connected client
     socket.emit("online-users", { userIds: Array.from(onlineUsers.keys()) });
@@ -80,6 +76,13 @@ export const initializeSocket = (httpServer: HttpServer) => {
         try {
           const { chatId, text } = data;
 
+          if (!text || !text.trim()) {
+            socket.emit("socket-error", {
+              message: "Message text is required",
+            });
+            return;
+          }
+
           const chat = await Chat.findOne({
             _id: chatId,
             participants: userId,
@@ -101,7 +104,7 @@ export const initializeSocket = (httpServer: HttpServer) => {
 
           await chat.save();
 
-          await message.populate("sender", "name email avatar");
+          await message.populate("sender", "name avatar");
 
           //emit to chat room for users inside the chat
           io.to(`chat:${chatId}`).emit("new-message", message);
