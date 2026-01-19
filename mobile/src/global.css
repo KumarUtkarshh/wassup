@@ -1,2 +1,50 @@
 @import "tailwindcss";
 @import "uniwind";
+
+@theme {
+  --font-lbcaslon: "LibreCaslonText-Regular";
+  --font-lbcaslon-itlc: "LibreCaslonText-Italic";
+  --font-lbcaslon-bold: "LibreCaslonText-Bold";
+}
+
+@layer theme {
+  :root {
+    @variant light {
+      /* Primary colors */
+      --color-primary: #f4a261;
+      --color-primary-light: #f4b183;
+      --color-primary-dark: #e76f51;
+      --color-primary-soft: #ffd7ba;
+
+      /* Surface colors */
+      --color-surface: #1a1a1d;
+      --color-surface-light: #2d2d30;
+      --color-surface-dark: #0d0d0f;
+      --color-surface-card: #242428;
+
+      /* Foreground colors */
+      --color-foreground: #ffffff;
+      --color-muted-foreground: #a0a0a5;
+      --color-subtle-foreground: #6b6b70;
+    }
+
+    @variant dark {
+      /* Primary colors */
+      --color-primary: #f4a261;
+      --color-primary-light: #f4b183;
+      --color-primary-dark: #e76f51;
+      --color-primary-soft: #ffd7ba;
+
+      /* Surface colors */
+      --color-surface: #1a1a1d;
+      --color-surface-light: #2d2d30;
+      --color-surface-dark: #0d0d0f;
+      --color-surface-card: #242428;
+
+      /* Foreground colors */
+      --color-foreground: #ffffff;
+      --color-muted-foreground: #a0a0a5;
+      --color-subtle-foreground: #6b6b70;
+    }
+  }
+}
