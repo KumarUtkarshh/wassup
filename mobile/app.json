@@ -7,6 +7,18 @@
       "output": "static"
     },
     "name": "mobile",
-    "slug": "mobile"
+    "slug": "mobile",
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/LibreCaslonText-Bold.ttf",
+            "./assets/fonts/LibreCaslonText-Italic.ttf",
+            "./assets/fonts/LibreCaslonText-Regular.ttf"
+          ]
+        }
+      ]
+    ]
   }
 }
