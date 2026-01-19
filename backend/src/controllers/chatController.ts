@@ -1,12 +1,12 @@
 import type { NextFunction, Response } from "express";
 import { Types } from "mongoose";
-import type { AuthRequest } from "../middleware/auth";
-import { Chat } from "../models/Chat";
+import type { AuthRequest } from "../middleware/auth.js";
+import { Chat } from "../models/Chat.js";
 
 export async function getChats(
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const userId = req.userId;
@@ -21,7 +21,7 @@ export async function getChats(
 
     const formattedChats = chats.map((chat) => {
       const otherParticipant = chat.participants.find(
-        (p) => p._id.toString() !== userId
+        (p) => p._id.toString() !== userId,
       );
 
       return {
@@ -43,7 +43,7 @@ export async function getChats(
 export async function getOrCreateChat(
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const userId = req.userId;
@@ -77,7 +77,7 @@ export async function getOrCreateChat(
     }
 
     const otherParticipant = chat.participants.find(
-      (p) => p._id.toString() !== userId
+      (p) => p._id.toString() !== userId,
     );
 
     res.json({

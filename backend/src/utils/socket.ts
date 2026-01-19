@@ -1,9 +1,9 @@
 import { verifyToken } from "@clerk/express";
 import { Server as HttpServer } from "http";
 import { Server as SocketServer } from "socket.io";
-import { Chat } from "../models/Chat";
-import { Message } from "../models/Message";
-import { User } from "../models/User";
+import { Chat } from "../models/Chat.js";
+import { Message } from "../models/Message.js";
+import { User } from "../models/User.js";
 
 export const onlineUsers: Map<string, string> = new Map();
 

@@ -1,12 +1,12 @@
 import { clerkClient, getAuth } from "@clerk/express";
 import type { NextFunction, Request, Response } from "express";
-import type { AuthRequest } from "../middleware/auth";
-import { User } from "../models/User";
+import type { AuthRequest } from "../middleware/auth.js";
+import { User } from "../models/User.js";
 
 export async function getMe(
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const userId = req.userId;
@@ -28,7 +28,7 @@ export async function getMe(
 export async function authCallback(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const { userId: clerkId } = getAuth(req);

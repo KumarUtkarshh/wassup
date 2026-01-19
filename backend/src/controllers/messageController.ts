@@ -1,12 +1,12 @@
 import type { NextFunction, Response } from "express";
-import type { AuthRequest } from "../middleware/auth";
-import { Chat } from "../models/Chat";
-import { Message } from "../models/Message";
+import type { AuthRequest } from "../middleware/auth.js";
+import { Chat } from "../models/Chat.js";
+import { Message } from "../models/Message.js";
 
 export async function getMessages(
   req: AuthRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const userId = req.userId;
