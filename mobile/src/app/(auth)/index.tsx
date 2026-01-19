@@ -17,6 +17,8 @@ export const StyledSafeAreaView = withUniwind(SafeAreaView);
 
 const AuthScreen = () => {
   const { handleSocialAuth, loadingStrategy } = useAuthSocial();
+
+  const isLoading = loadingStrategy !== null;
   return (
     <View className="flex-1 bg-surface-dark">
       {/* globs */}
@@ -63,7 +65,10 @@ const AuthScreen = () => {
             {/* Google btn */}
             <Pressable
               className="flex-1 flex-row items-center justify-center gap-2 bg-white/95 py-3.5  rounded-2xl active:scale-[0.99]"
-              onPress={() => handleSocialAuth("oauth_google")}
+              disabled={isLoading}
+              accessibilityRole="button"
+              accessibilityLabel="Continuw with Google"
+              onPress={() => !isLoading && handleSocialAuth("oauth_google")}
             >
               {loadingStrategy === "oauth_google" ? (
                 <ActivityIndicator size="small" color="#1a1a1a" />
@@ -86,10 +91,10 @@ const AuthScreen = () => {
             {/* apple btn */}
             <Pressable
               className="flex-1 flex-row items-center justify-center gap-2 bg-white/10 rounded-2xl py-3.5 border border-white/20 active:scale-[0.97]"
-              // disabled={isLoading}
+              disabled={isLoading}
               accessibilityRole="button"
               accessibilityLabel="Continue with Apple"
-              onPress={() => handleSocialAuth("oauth_apple")}
+              onPress={() => !isLoading && handleSocialAuth("oauth_apple")}
             >
               {loadingStrategy === "oauth_apple" ? (
                 <ActivityIndicator size="small" color="#FFFFFF" />
