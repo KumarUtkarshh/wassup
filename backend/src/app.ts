@@ -1,6 +1,6 @@
 import { clerkMiddleware } from "@clerk/express";
 import express from "express";
-import { errorHandler } from "./controllers/errorHandler";
+import { errorHandler } from "./controllers/errorHandler.js";
 import authRoutes from "./routes/authRoutes";
 import chatRoutes from "./routes/chatRoutes";
 import messageRoutes from "./routes/messageRoutes";
