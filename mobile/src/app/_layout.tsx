@@ -1,7 +1,13 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Stack } from "expo-router";
 import "../global.css";
 
-import { Slot } from "expo-router";
+const queryClient = new QueryClient();
 
 export default function Layout() {
-  return <Slot />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Stack screenOptions={{ headerShown: false }} />
+    </QueryClientProvider>
+  );
 }
