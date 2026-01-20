@@ -10,6 +10,12 @@ const ChatsTab = () => {
     <StyledSafeAreaView className="flex-1 bg-surface">
       <ScrollView>
         <Text className="text-white">ChatsTab</Text>
+        {/* <Button
+          title="Try!"
+          onPress={() => {
+            Sentry.captureException(new Error("First error"));
+          }}
+        /> */}
       </ScrollView>
     </StyledSafeAreaView>
   );
