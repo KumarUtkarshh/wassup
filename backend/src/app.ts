@@ -1,4 +1,5 @@
 import { clerkMiddleware } from "@clerk/express";
+import cors from "cors";
 import express from "express";
 import { errorHandler } from "./controllers/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -7,6 +8,18 @@ import messageRoutes from "./routes/messageRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
 const app = express();
+
+const allowedOrigins = [
+  "http://localhost:8081", // expo mobile
+  process.env.FRONTEND_URL!, // production
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true, // allow credentials from client (cookies, authorization headers, etc.)
+  }),
+);
 
 /* `app.use(express.json());` is setting up middleware in the Express application to parse incoming
 requests with JSON payloads. This middleware function parses incoming request bodies and makes the
