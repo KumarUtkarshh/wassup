@@ -18,6 +18,14 @@
             "./assets/fonts/LibreCaslonText-Regular.ttf"
           ]
         }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "wassup",
+          "organization": "bitshiftz"
+        }
       ]
     ]
   }
