@@ -6,6 +6,6 @@ const router = Router();
 
 // /api/auth/me
 router.get("/me", protectRoute, getMe);
-router.get("/callback", authCallback);
+router.post("/callback", authCallback);
 
 export default router;

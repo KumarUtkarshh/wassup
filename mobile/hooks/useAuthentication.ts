@@ -7,6 +7,7 @@ export const useAuthCallback = () => {
   return useMutation({
     mutationFn: async () => {
       const { data } = await api.post("/auth/callback");
+      console.log(data);
       return data;
     },
   });

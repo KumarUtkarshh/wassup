@@ -1,33 +1,26 @@
 import { useAuth } from "@clerk/clerk-expo";
 import axios from "axios";
-import { useEffect } from "react";
-const API_URL = "https://wassup-neon.vercel.app/api";
 
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+const API_URL = "https://wassup-v5ka.onrender.com/api";
 
 export const useAPI = () => {
   const { getToken } = useAuth();
 
-  useEffect(() => {
-    const reqInterceptor = api.interceptors.request.use(async (config) => {
-      const token = await getToken();
+  const api = axios.create({
+    baseURL: API_URL,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    });
+  api.interceptors.request.use(async (config) => {
+    const token = await getToken();
 
-    //cleanup code
-    return () => {
-      api.interceptors.request.eject(reqInterceptor);
-    };
-  }, [getToken]);
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
 
   return api;
 };

@@ -1,0 +1,25 @@
+import { useAuth } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
+import { useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
+
+export default function SsoCallback() {
+  const { isSignedIn, isLoaded } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    if (isSignedIn) {
+      router.replace("/(tabs)");
+    } else {
+      router.replace("/(auth)");
+    }
+  }, [isLoaded, isSignedIn]);
+
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator size="large" />
+    </View>
+  );
+}
