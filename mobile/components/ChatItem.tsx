@@ -11,6 +11,11 @@ const ChatItem = ({ chat, onPress }: { chat: Chat; onPress: () => void }) => {
 
   return (
     <Pressable
+      style={{
+        paddingBottom: 3,
+        paddingTop: 3,
+        gap: 12,
+      }}
       className="flex-row items-center py-3 active:opacity-70"
       onPress={onPress}
     >

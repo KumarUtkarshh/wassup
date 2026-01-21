@@ -49,6 +49,14 @@ export default Sentry.wrap(function Layout() {
         >
           <Stack.Screen name="(auth)" options={{ animation: "fade" }} />
           <Stack.Screen name="(tabs)" options={{ animation: "fade" }} />
+          <Stack.Screen
+            name="new-chat"
+            options={{
+              animation: "slide_from_bottom",
+              presentation: "modal",
+              gestureEnabled: true,
+            }}
+          />
         </Stack>
       </QueryClientProvider>
     </ClerkProvider>

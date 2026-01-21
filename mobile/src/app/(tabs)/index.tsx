@@ -90,6 +90,7 @@ const ChatsTab = () => {
           paddingHorizontal: 20,
           paddingTop: 16,
           paddingBottom: 24,
+          flexGrow: 1,
         }}
         ListEmptyComponent={
           <EmptyUI
