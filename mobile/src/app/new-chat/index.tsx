@@ -14,6 +14,7 @@ import { withUniwind } from "uniwind";
 import UserItem from "../../../components/UserItem";
 import { useGetOrCreateChat } from "../../../hooks/useChats";
 import { useUsers } from "../../../hooks/useUsers";
+import { useSocketStore } from "../../../lib/socket";
 import { User } from "../../../types";
 
 export const StyledSafeAreaView = withUniwind(SafeAreaView);
@@ -24,6 +25,7 @@ const NewChatScreen = () => {
   const { data: allUsers, isLoading, error } = useUsers();
   const { mutate: getOrCreateChat, isPending: isCreatingChat } =
     useGetOrCreateChat();
+  const { onlineUsers } = useSocketStore();
 
   // client-side filtering
   const users = allUsers?.filter((u) => {
@@ -119,7 +121,7 @@ const NewChatScreen = () => {
                   <UserItem
                     key={user._id}
                     user={user}
-                    isOnline={true}
+                    isOnline={onlineUsers.has(user._id)}
                     onPress={() => handleUserSelect(user)}
                   />
                 ))}

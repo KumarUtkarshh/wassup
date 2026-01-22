@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import AuthSync from "../../components/AuthSync";
+import SocketConnection from "../../components/SocketConnection";
 import "../global.css";
 
 Sentry.init({
@@ -40,6 +41,7 @@ export default Sentry.wrap(function Layout() {
     <ClerkProvider tokenCache={tokenCache}>
       <QueryClientProvider client={queryClient}>
         <AuthSync />
+        <SocketConnection />
         <StatusBar style="light" />
         <Stack
           screenOptions={{
